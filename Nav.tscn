@@ -1,0 +1,60 @@
+[gd_scene load_steps=6 format=3 uid="uid://b70c2r8d2o73t"]
+
+[ext_resource type="Script" path="res://CharacterBody2D.gd" id="1_23ad4"]
+[ext_resource type="Texture2D" uid="uid://cxlil5ix7f2v" path="res://icon.svg" id="2_mf0a3"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_u6xm4"]
+vertices = PackedVector2Array(0, 0.0875401, 0.0138298, 28.363, -5.1447, 20.747, -5.31065, 12.4307, -15.9043, 28.4068, -8.10428, 20.4406, -15.9181, 0, -7.96598, 12.2556)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(2, 1, 4, 5), PackedInt32Array(5, 4, 6, 7), PackedInt32Array(7, 6, 0, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(0, 0.0875401, -15.9181, 0, -15.9043, 28.4068, 0.0138298, 28.363), PackedVector2Array(-5.31065, 12.4307, -5.1447, 20.747, -8.10428, 20.4406, -7.96598, 12.2556)])
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pqwl6"]
+radius = 39.1152
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_w22xx"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+scale = Vector2(-72.3075, 22.8467)
+navigation_polygon = SubResource("NavigationPolygon_u6xm4")
+
+[node name="enemy" type="CharacterBody2D" parent="."]
+position = Vector2(843, 96)
+script = ExtResource("1_23ad4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="enemy"]
+position = Vector2(1, 2)
+shape = SubResource("CircleShape2D_pqwl6")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="enemy"]
+avoidance_enabled = true
+max_neighbors = 100
+time_horizon_obstacles = 1.0
+
+[node name="Icon" type="Sprite2D" parent="enemy"]
+position = Vector2(-1, -1)
+scale = Vector2(0.526423, 0.543313)
+texture = ExtResource("2_mf0a3")
+
+[node name="Timer" type="Timer" parent="enemy"]
+wait_time = 0.1
+autostart = true
+
+[node name="Obsticle" type="CharacterBody2D" parent="."]
+position = Vector2(483, 372)
+
+[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="Obsticle"]
+position = Vector2(-7, -1)
+radius = 83.78
+
+[node name="Icon" type="Sprite2D" parent="Obsticle"]
+position = Vector2(-5, 2)
+scale = Vector2(0.518076, 0.525364)
+texture = ExtResource("2_mf0a3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Obsticle"]
+position = Vector2(-9, 0)
+shape = SubResource("CircleShape2D_w22xx")
+
+[connection signal="timeout" from="enemy/Timer" to="enemy" method="_on_timer_timeout"]
