@@ -57,4 +57,7 @@ texture = ExtResource("2_mf0a3")
 position = Vector2(-9, 0)
 shape = SubResource("CircleShape2D_w22xx")
 
+[node name="Line2D" type="Line2D" parent="."]
+position = Vector2(843, 96)
+
 [connection signal="timeout" from="enemy/Timer" to="enemy" method="_on_timer_timeout"]
